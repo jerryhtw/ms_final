@@ -1,7 +1,7 @@
 
+//const socket = io('http://localhost:3000')
+const socket = io('https://suhyun-ms-project3.onrender.com')
 
-const socket = io('http://localhost:3000')
-//const socket = io('https://suhyun-ms-project2.onrender.com')
 const messageContainer = document.getElementById('message-container')
 const roomContainer = document.getElementById('room-container')
 const messageForm = document.getElementById('send-container')
@@ -140,18 +140,16 @@ function showfont(){
   console.log(`현재 감정 상태는 ${currentEmotion}입니다.`)
   return_array = []
   Object.keys(fonts[currentEmotion]).forEach(
-    x => return_array.push(`<span onclick="getthename(e)" style="background-color:white;paddig:5px;margin:5px;border:true;">${x}</span>`)
+    x => return_array.push(`<span onclick="getthename(${x})" style="background-color:white;paddig:5px;margin:5px;border:true;">${x}</span>`)
   )
   
 
   elem_font.innerHTML = "</br>"+ return_array.join("")
 
-  console.log(return_array)
-
 }
 
-function getthename(e){
-  console.log(e)
+function getthename(name){
+  console.log(name)
 
 }
 
