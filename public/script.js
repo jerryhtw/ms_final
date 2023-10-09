@@ -1,11 +1,40 @@
-//const socket = io('http://localhost:3000')
-const socket = io('https://suhyun-ms-project2.onrender.com')
+
+
+const socket = io('http://localhost:3000')
+//const socket = io('https://suhyun-ms-project2.onrender.com')
 const messageContainer = document.getElementById('message-container')
 const roomContainer = document.getElementById('room-container')
 const messageForm = document.getElementById('send-container')
 const messageInput = document.getElementById('message-input')
 const video = document.getElementById('video')
+
+let elem = document.getElementById('top-container');
+let elem_font = document.getElementById('font-select');
 let currentEmotion = ""; 
+user_name = ""
+loginlist = []
+cur_style = ""
+
+//neutral, happy, sad, angry, fearful, disgusted, surprised
+fonts = {
+  "neutral" : {
+    "basic" : "basic1"
+  },
+  "happy" : {
+    "happy1" : "happy1",
+    "happy2" : "happy2",
+    "happy3" : "happy3",
+    "happy4" : "happy4",
+    "happy5" : "happy5",
+    "happy6" : "happy6",
+  },
+  "sad" : {},
+  "angry" : {},
+  "fearful" : {},
+  "disgusted" : {},
+  "surprised" : {},
+
+}
 
 Promise.all([
   faceapi.nets.tinyFaceDetector.loadFromUri('/models'),
@@ -32,8 +61,9 @@ video.addEventListener('play', () => {
     const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions()
     const resizedDetections = faceapi.resizeResults(detections, displaySize)
     canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height)
-    console.log(detections[0]["expressions"])
-    console.log(`emotion :  ${selectEmotion(detections[0]["expressions"])}`)
+    //console.log(detections[0]["expressions"])
+    //console.log(`emotion :  ${selectEmotion(detections[0]["expressions"])}`)
+    currentEmotion = selectEmotion(detections[0]["expressions"])
     faceapi.draw.drawDetections(canvas, resizedDetections)
     faceapi.draw.drawFaceLandmarks(canvas, resizedDetections)
     faceapi.draw.drawFaceExpressions(canvas, resizedDetections)
@@ -56,14 +86,17 @@ function selectEmotion(_array){
 }
 
 if (messageForm != null) {
-  const name = prompt('What is your name?')
-  appendMessage('You joined')
+  const name = prompt('당신의 이름은 무엇인가요?')
+  appendMessage(`${name}님이 참가했습니다.`)
   socket.emit('new-user', roomName, name)
+
+  user_name = name;
+  elem.innerHTML = `</br><h1>${user_name}님, 채팅방에 오신 것을 환영합니다.</h1>`
 
   messageForm.addEventListener('submit', e => {
     e.preventDefault()
     const message = messageInput.value
-    appendMessage(`You: ${message}`)
+    appendMessage(`${user_name}: ${message}`)
     socket.emit('send-chat-message', roomName, message)
     messageInput.value = ''
   })
@@ -84,7 +117,11 @@ socket.on('chat-message', data => {
 })
 
 socket.on('user-connected', name => {
-  appendMessage(`${name} connected`)
+  appendMessage(`${name}님이 연결되었습니다.`)
+  console.log(name)
+  loginlist.add(name);
+  console.log(loginlist)
+  elem.innerHTML = `<h1>${loginList.join(", ")}님과의 채팅방입니다.</h1>`
 })
 
 socket.on('user-disconnected', name => {
@@ -95,5 +132,26 @@ function appendMessage(message) {
   const messageElement = document.createElement('div')
   messageElement.innerText = message
   messageContainer.append(messageElement)
+}
+
+function showfont(){
+  //neutral, happy, sad, angry, fearful, disgusted, surprised
+  //fonts[currentEmotion].keys()
+  console.log(`현재 감정 상태는 ${currentEmotion}입니다.`)
+  return_array = []
+  Object.keys(fonts[currentEmotion]).forEach(
+    x => return_array.push(`<span onclick="getthename(e)" style="background-color:white;paddig:5px;margin:5px;border:true;">${x}</span>`)
+  )
+  
+
+  elem_font.innerHTML = "</br>"+ return_array.join("")
+
+  console.log(return_array)
+
+}
+
+function getthename(e){
+  console.log(e)
+
 }
 

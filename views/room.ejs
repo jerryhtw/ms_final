@@ -11,6 +11,15 @@
   <script defer src="http://localhost:3000/socket.io/socket.io.js"></script>
   <script defer src="face-api.min.js"></script>
   <script defer src="script.js"></script>
+  <link rel="stylesheet" href="nanumsquare.css">
+  <style type="text/css">
+    .caption4 {
+        font-family: "NanumSquare";
+        font-size: 10px;
+        line-height: 14px;
+        font-weight: 600;
+    }
+</style>
   <style>
     body {
       padding: 0;
@@ -20,6 +29,7 @@
     #message-container {
       width: 50%;
       max-width: 1200px;
+      
     }
 
     #message-container div {
@@ -32,9 +42,10 @@
     }
 
     #send-container {
-      position: fixed;
       padding-bottom: 30px;
-      bottom: 0;
+      position : fixed;
+      left:25%;
+      bottom : 0;
       background-color: white;
       max-width: 1200px;
       width: 50%;
@@ -43,42 +54,65 @@
 
     #message-input {
       flex-grow: 1;
+      padding : 5;
+      margin : 5;
+    }
+    #send-button{
+      padding : 5;
+      margin : 5;
     }
 
     #hi{
-      padding: 10px;
+      padding-right: 40px;
       position: fixed;
-  top: 0;
-  /* width: 100% */
+      top: 0;
+      /* width: 100% */
 
-  right: 0;
+      right: 0;
     }
     #pp{
-      padding: 10px;
+      padding-right: 40px;
       position: fixed;
-  top: 0;
-  /* width: 100% */
-
-  right: 0;
+      top: 0;
+      /* width: 100% */
+      right: 0;
     }
     #chat-box{
-      padding: 20px;
+      margin : 0 auto;
       height : 100%;
     }
-
+    #top-container{
+      width : 50%;
+      height : 70px;
+      background-color: #aca9a9;
+      text-align: center;
+    }
+    #font-select{
+      position : fixed;
+      left:25%;
+      background-color: grey;
+      bottom : 0;
+      max-width: 1200px;
+      width: 50%;
+      height : 100px;
+    }
   </style>
 </head>
 <body>
-  <span id="chat-box">
+  <center>
+  <div id="chat-box">
+    <div class = "caption4" id="top-container"></div>
     <div id="message-container"></div>
+    <div id="font-select"></div>
     <form id="send-container">
-      <input type="text" id="message-input">
-      <button type="submit" id="send-button">Send</button>
+      <input type="text" id="message-input" onclick="showfont()">
+      <button type="submit" id="send-button">전송</button>
     </form>
-  </span>
+  </div>
+  </center> 
 
   <span id="hi">
-    <video id="video" width="360" height="280" autoplay muted></video>
+    <video id="video" width="216" height="284" autoplay muted></video>
   </span>
   <span id="pp">
 
