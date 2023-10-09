@@ -1,6 +1,6 @@
 
 //const socket = io('http://localhost:3000')
-const socket = io('https://suhyun-ms-project3.onrender.com')
+const socket = io(window.location.href)
 
 const messageContainer = document.getElementById('message-container')
 const roomContainer = document.getElementById('room-container')
