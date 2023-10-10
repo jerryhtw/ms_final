@@ -71,6 +71,10 @@ video.addEventListener('play', () => {
 })
 
 function selectEmotion(_array){
+  
+  //일정 주기마다 사용자 얼굴의 emotion값을 저장.
+  //저장한 값이 곧 현재 얼굴 표정값.
+
   if (_array.length == 0){
     return "감정 포착 실패!";
   }
@@ -135,8 +139,11 @@ function appendMessage(message) {
 }
 
 function showfont(){
-  //neutral, happy, sad, angry, fearful, disgusted, surprised
-  //fonts[currentEmotion].keys()
+  // AI 모델이 감지할 수 있는 총 감정의 종류는 다음과 같습니다. 
+  // =>neutral, happy, sad, angry, fearful, disgusted, surprised
+
+  //input창 마우스로 클릭하면 나타나는 감정폰트 선택창.
+
   console.log(`현재 감정 상태는 ${currentEmotion}입니다.`)
   return_array = []
   Object.keys(fonts[currentEmotion]).forEach(
